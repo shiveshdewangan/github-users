@@ -1,47 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
-const API_URL = "https://api.github.com/users";
+const API_BASE_URL = "https://api.github.com/users/";
 
-const getUserDetails = async (API_URL, userId) => {
-  const { data } = await axios.get(`${API_URL}/userId`);
-  console.log("data", data);
-  return data;
-};
-
-const App = () => {
-  const [user, setUser] = useState("");
-  const [users, setUsers] = useState([]);
-
-  const handleChange = event => {
-    setUser(event.target.value);
+class App extends Component {
+  state = {
+    users: [],
+    user: ""
   };
 
-  const handleSubmit = event => {
+  handleChange = event => {
+    this.setState({ user: event.target.value.trim() });
+    console.log(this.state.user);
+  };
+
+  handleSubmit = async event => {
     event.preventDefault();
-    const { data: results } = getUserDetails(API_URL, user);
-    console.log("Results: ", results);
-    setUsers([...users, results]);
-    console.log("users", users);
+    const userId = this.state.user;
+    console.log("SUBMIT", userId);
+
+    const result = this.fetchData(API_BASE_URL, this.state.user);
+
+    result.then(res =>
+      this.setState({
+        users: [...this.state.users, res.data]
+      })
+    );
+    console.log(this.state.users);
   };
 
-  return (
-    <div className="tc">
-      <h1>Github Profiles</h1>
+  fetchData = async (url, id) => {
+    const response = await axios.get(url + id);
+    return response;
+  };
+
+  render() {
+    const { users, user } = this.state;
+    return (
       <div className="tc">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            id="user"
-            name="user"
-            onChange={handleChange}
-            value={user}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <h1>Github Profiles</h1>
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="user"
+              id="user"
+              value={user}
+              onChange={this.handleChange}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <div>
+          <ul>
+            {users.map(u => (
+              <li>
+                <span>{u.login}</span>
+                <img
+                  src={u.avatar_url}
+                  alt="Profile Pic"
+                  width="200px"
+                  height="200px"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default App;
