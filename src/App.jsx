@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./index.css";
 
 const API_BASE_URL = "https://api.github.com/users/";
 
@@ -27,6 +28,9 @@ class App extends Component {
       })
     );
     console.log(this.state.users);
+    console.log("event.target", event.target.user);
+    // event.target.user.value = "";
+    this.state.user = "";
   };
 
   fetchData = async (url, id) => {
@@ -54,15 +58,11 @@ class App extends Component {
         <div>
           <ul>
             {users.map(u => (
-              <li>
-                <span>{u.login}</span>
-                <img
-                  src={u.avatar_url}
-                  alt="Profile Pic"
-                  width="200px"
-                  height="200px"
-                />
-              </li>
+              <div className="dib br3 pa3 ma2 grow bw2 shadow-5 block profile">
+                <img src={u.avatar_url} alt="" />
+                <p>Repos: {u.public_repos}</p>
+                {u.bio ? <p>{u.bio}</p> : null}
+              </div>
             ))}
           </ul>
         </div>
