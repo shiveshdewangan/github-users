@@ -7,7 +7,8 @@ const API_BASE_URL = "https://api.github.com/users/";
 class App extends Component {
   state = {
     users: [],
-    user: ""
+    user: "",
+    error: ""
   };
 
   handleChange = event => {
@@ -22,11 +23,18 @@ class App extends Component {
 
     const result = this.fetchData(API_BASE_URL, this.state.user);
 
-    result.then(res =>
-      this.setState({
-        users: [...this.state.users, res.data]
-      })
-    );
+    result
+      .then(res =>
+        this.setState({
+          users: [...this.state.users, res.data]
+        })
+      )
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          error: error
+        });
+      });
     console.log(this.state.users);
     console.log("event.target", event.target.user);
     // event.target.user.value = "";
@@ -39,7 +47,11 @@ class App extends Component {
   };
 
   render() {
-    const { users, user } = this.state;
+    const { users, user, error } = this.state;
+
+    if (error) {
+      return <p>{error.message}</p>;
+    }
     return (
       <div className="tc">
         <h1>Github Profiles</h1>
