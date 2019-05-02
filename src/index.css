@@ -7,3 +7,9 @@ body {
   height: 400px;
   border: 1px solid;
 }
+
+.error {
+  color: red;
+  font-weight: bold;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
