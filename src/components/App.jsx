@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import API from "../api/api";
 import "../index.css";
-import axios from "axios";
+import Header from "./Header";
+import SimpleForm from "./SimpleForm";
+import UsersList from "./UsersList";
+import RepoDetails from "./RepoDetails";
 
 class App extends Component {
   state = {
     users: [],
     user: "",
+    userDetails: "",
     error: ""
   };
 
-  componentDidMount = async () => {
-    const { data } = await axios.get(
-      "https://api.github.com/users/shiveshdewangan/repos"
-    );
-    console.log("repo", data);
-  };
-
   handleChange = event => {
+    event.preventDefault();
     this.setState({ user: event.target.value.trim() });
-    console.log(this.state.user);
   };
 
   handleSubmit = async event => {
@@ -45,9 +42,11 @@ class App extends Component {
 
   handleDetails = async (event, id) => {
     event.preventDefault();
-    console.log("id", id);
     const { data } = await API.get(`${id}/repos`);
-    console.log("repos", data);
+    this.setState({
+      userDetails: data
+    });
+    console.log("data", data);
   };
 
   render() {
@@ -60,43 +59,21 @@ class App extends Component {
         </p>
       );
     }
+
     return (
       <div className="tc container">
-        <h1>Github Profiles</h1>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              name="user"
-              id="user"
-              value={user}
-              onChange={this.handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
+        <div className="fl w-third pa2">
+          <Header />
+          <SimpleForm
+            value={user}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+          />
+          <UsersList users={users} handleDetails={this.handleDetails} />
         </div>
-        <div>
-          <ul>
-            {users.map(u => (
-              <div
-                key={u.id}
-                className="dib br3 pa3 ma2 bw2 shadow-5 block profile"
-              >
-                <img src={u.avatar_url} alt="" />
-                <p>Repos: {u.public_repos}</p>
-                {u.bio ? <p>{u.bio}</p> : null}
-                <span>
-                  <button onClick={event => this.handleDetails(event, u.login)}>
-                    Get Details
-                  </button>
-                </span>
-              </div>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h1>Details</h1>
-          <p>User Repos Details</p>
+        <div className="fl w-two-thirds pa2">
+          <RepoDetails />
+          {JSON.stringify(this.state.userDetails.length)}
         </div>
       </div>
     );
