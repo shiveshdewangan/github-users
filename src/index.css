@@ -32,7 +32,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   border: 1px solid black;
-  width: 70%;
+  width: 90%;
 }
 
 .users-list {
@@ -40,14 +40,13 @@ body {
 }
 
 .dashboard {
-  flex: 1;
+  flex: 2;
 }
 
 .user {
   display: flex;
   align-items: center;
   flex-direction: column;
-  border: 1px solid black;
   margin: 2px;
   background-color: mistyrose;
 }

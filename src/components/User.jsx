@@ -5,6 +5,7 @@ const User = ({ name, id, avatar, bio, handleDetails }) => {
     <div className="user">
       <img src={avatar} alt={name} />
       <h3>{name}</h3>
+      <button>Get Details -></button>
     </div>
   );
 };
