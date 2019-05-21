@@ -61,19 +61,24 @@ class App extends Component {
     }
 
     return (
-      <div className="tc container">
-        <div className="fl w-third pa2">
+      <div className="container">
+        <div className="header">
           <Header />
+        </div>
+        <div className="form">
           <SimpleForm
             value={user}
             handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
           />
-          <UsersList users={users} handleDetails={this.handleDetails} />
         </div>
-        <div className="fl w-two-thirds pa2">
-          <RepoDetails />
-          {JSON.stringify(this.state.userDetails.length)}
+        <div className="details">
+          <div className="users-list">
+            <UsersList users={users} handleDetails={this.handleDetails} />
+          </div>
+          <div className="dashboard">
+            <RepoDetails />
+          </div>
         </div>
       </div>
     );
