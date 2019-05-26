@@ -60,8 +60,10 @@ class App extends Component {
       );
     }
 
+    console.log("this.state", this.state);
+
     return (
-      <div className="container">
+      <>
         <div className="header">
           <Header />
         </div>
@@ -72,15 +74,10 @@ class App extends Component {
             handleChange={this.handleChange}
           />
         </div>
-        <div className="details">
-          <div className="users-list">
-            <UsersList users={users} handleDetails={this.handleDetails} />
-          </div>
-          <div className="dashboard">
-            <RepoDetails />
-          </div>
+        <div className="user-list">
+          <UsersList users={users} />
         </div>
-      </div>
+      </>
     );
   }
 }

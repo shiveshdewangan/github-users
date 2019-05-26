@@ -1,12 +1,21 @@
 import React from "react";
 
-const User = ({ name, id, avatar, bio, handleDetails }) => {
+const User = ({ name, repos, avatar, bio }) => {
   return (
-    <div className="user">
-      <img src={avatar} alt={name} />
-      <h3>{name}</h3>
-      <button>Get Details -></button>
-    </div>
+    <article className="user">
+      <h3 className="name">
+        <em>{name}</em>
+      </h3>
+      <img className="avatar" src={avatar} alt={name} />
+      <div>
+        <strong>Repos</strong>: <span>{repos}</span>
+      </div>
+      {bio ? (
+        <p>
+          <strong>Bio</strong>: {bio}
+        </p>
+      ) : null}
+    </article>
   );
 };
 

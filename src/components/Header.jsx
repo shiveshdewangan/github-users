@@ -1,11 +1,7 @@
 import React from "react";
 
 const Header = () => {
-  return (
-    <div>
-      <h2>Github Profiles</h2>
-    </div>
-  );
+  return <h2>Github Profiles</h2>;
 };
 
 export default Header;
