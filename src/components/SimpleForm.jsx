@@ -9,7 +9,7 @@ const SimpleForm = ({ value, handleChange, handleSubmit }) => {
         id="user"
         value={value}
         onChange={handleChange}
-        placeholder="Github Username"
+        placeholder="Type a github userid to get started"
       />
       <button type="submit">Submit</button>
     </form>
