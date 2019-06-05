@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import API from "../api/api";
-import "../index.css";
 import Header from "./Header";
 import SimpleForm from "./SimpleForm";
 import UsersList from "./UsersList";
-import RepoDetails from "./RepoDetails";
 import Spinner from "./Spinner/Spinner";
+import "../index.css";
 
 class App extends Component {
   state = {
     users: [],
     user: "",
-    userDetails: "",
     error: "",
     isLoading: false
   };
@@ -22,18 +20,18 @@ class App extends Component {
   };
 
   handleSubmit = async event => {
+    this.setState({
+      isLoading: true
+    });
+
     event.preventDefault();
     const { users, user } = this.state;
-    let result = "";
 
     try {
-      this.setState({
-        isLoading: true
-      });
       const { data: result } = await API.get(`${user}`);
-      debugger;
+      console.log("result", result);
       this.setState({
-        users: [...this.state.users, result],
+        users: [...users, result],
         isLoading: false
       });
     } catch (error) {
@@ -54,11 +52,18 @@ class App extends Component {
     this.setState({
       userDetails: data
     });
-    console.log("data", data);
   };
 
   render() {
     const { users, user, error, isLoading } = this.state;
+    
+    let usersList = (
+      <div className="user-list">
+        <UsersList users={users} isLoading={isLoading} />
+      </div>
+    );
+
+    if (isLoading) usersList = <Spinner />;
 
     if (error) {
       return (
@@ -67,8 +72,6 @@ class App extends Component {
         </p>
       );
     }
-
-    console.log("this.state", this.state);
 
     return (
       <>
@@ -82,10 +85,7 @@ class App extends Component {
             handleChange={this.handleChange}
           />
         </div>
-        <div className="user-list">
-          <UsersList isLoading={isLoading} users={users} />
-        </div>
-        {/* <Spinner /> */}
+        {usersList}
       </>
     );
   }
