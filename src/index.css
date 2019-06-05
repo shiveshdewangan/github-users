@@ -16,12 +16,43 @@ body {
   margin: 0;
 }
 
-.form {
-  margin-bottom: 10px;
+.inline-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-form input {
-  width: 200px;
+.inline-form input {
+  flex: 4;
+  padding: 12px 20px;
+  margin: 4px;
+  box-sizing: border-box;
+  border: 2px solid royalblue;
+  border-radius: 4px;
+}
+
+.inline-form button {
+  flex: 1;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+input[type="text"]:focus {
+  background-color: fff;
+}
+
+input::placeholder {
+  text-align: center;
 }
 
 .user {
@@ -45,4 +76,8 @@ form input {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+}
+
+.hidden {
+  display: none;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import User from "./User";
 
-const UsersList = ({ users, handleDetails }) => {
+const UsersList = ({ users, handleDetails, isLoading }) => {
   return (
     <>
       {users.map(user => (
@@ -11,6 +11,7 @@ const UsersList = ({ users, handleDetails }) => {
           avatar={user.avatar_url}
           bio={user.bio}
           repos={user.public_repos}
+          isLoading={isLoading}
         />
       ))}
     </>

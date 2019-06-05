@@ -5,13 +5,15 @@ import Header from "./Header";
 import SimpleForm from "./SimpleForm";
 import UsersList from "./UsersList";
 import RepoDetails from "./RepoDetails";
+import Spinner from "./Spinner/Spinner";
 
 class App extends Component {
   state = {
     users: [],
     user: "",
     userDetails: "",
-    error: ""
+    error: "",
+    isLoading: false
   };
 
   handleChange = event => {
@@ -25,13 +27,19 @@ class App extends Component {
     let result = "";
 
     try {
-      const { data: result } = await API.get(`${user}`);
       this.setState({
-        users: [...this.state.users, result]
+        isLoading: true
+      });
+      const { data: result } = await API.get(`${user}`);
+      debugger;
+      this.setState({
+        users: [...this.state.users, result],
+        isLoading: false
       });
     } catch (error) {
       this.setState({
-        error: error.message
+        error: error.message,
+        isLoading: false
       });
     }
 
@@ -50,7 +58,7 @@ class App extends Component {
   };
 
   render() {
-    const { users, user, error } = this.state;
+    const { users, user, error, isLoading } = this.state;
 
     if (error) {
       return (
@@ -75,8 +83,9 @@ class App extends Component {
           />
         </div>
         <div className="user-list">
-          <UsersList users={users} />
+          <UsersList isLoading={isLoading} users={users} />
         </div>
+        {/* <Spinner /> */}
       </>
     );
   }
